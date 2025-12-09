@@ -1,0 +1,1 @@
+Its exactly what you think it it. This is a snake demo. Just a bit of practice using godot nodes, signals, tweens and other fun things I can find on the engine. A good bit a practice. All art and backdrops done by me using aseprite.
