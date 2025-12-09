@@ -9,7 +9,12 @@ extends Node2D
 @onready var time: Label = $UI/Time
 @onready var end_time: Label = $"GameOver/VBoxContainer/End Time"
 @onready var end_score: Label = $"GameOver/VBoxContainer/End Score"
+@onready var eat: AudioStreamPlayer = $Eat
+@onready var lose: AudioStreamPlayer = $Lose
+@onready var main_bg: AudioStreamPlayer = $MainBG
 
+# Sarting pitch for the apple eaten sound effect
+var pitch: float = 0.5
 var score: int
 var tween: Tween
 var initial_segments: int = 4
@@ -23,6 +28,8 @@ func _ready() -> void:
 	SignalBus.game_lost.connect(_on_game_lost)
 	SignalBus.apple_eaten.connect(_on_apple_eaten)
 	SignalBus.respawn_apple.connect(_spawn_apple)
+	
+	main_bg.play()
 	
 	score = 0
 	for i in initial_segments:
@@ -71,6 +78,11 @@ func _on_game_lost():
 		tween.stop()
 		head.tween.stop()
 	timer.stop()
+	
+	lose.play()
+	# Turn off all sound effects and music
+	main_bg.volume_db = -80.0
+	head.turn.volume_db = -80.0
 		
 # Spawn a new apple on the grid (apple script takes care of spawn on top of snake)
 func _spawn_apple():
@@ -90,7 +102,11 @@ func _on_apple_eaten():
 	
 	_spawn_apple()
 	_spawn_segment()
-
+	
+	eat.pitch_scale = pitch
+	pitch += 0.02
+	eat.play()
+	
 func _on_timer_timeout():
 	seconds += 1
 	if seconds >= 60:

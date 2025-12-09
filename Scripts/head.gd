@@ -16,7 +16,9 @@ var previous_dir: Vector2
 #setting starting direction due to direction of head sprite
 var starting_dir: Vector2 = input_dir["move_up"]
 @export var move_speed: float = 10.0
-static var grid_size: int = 32
+var grid_size: int = 32
+@onready var turn: AudioStreamPlayer = $Turn
+
 
 var can_move: bool = true
 
@@ -25,15 +27,15 @@ func _ready() -> void:
 	current_dir = starting_dir
 	previous_dir = current_dir
 	animated_sprite_2d.play()
-	pass # Replace with function body.
 	
 func _unhandled_input(event):
 	#check with direction has been pressed
 	for key in input_dir:
 		if event.is_action_pressed(key):
-			previous_dir = current_dir
+			if current_dir != input_dir[key] and current_dir * -1 != input_dir[key]:
+				turn.play()
 			current_dir = input_dir[key]
-			#print("Pressed:", key)
+			
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -69,6 +71,7 @@ func _process(delta: float) -> void:
 			tween.tween_property(self, "rotation", tmp_rot, 1/move_speed).set_ease(Tween.EASE_OUT
 				).set_trans(Tween.TRANS_CUBIC)
 		await tween.finished
+		previous_dir = move_dir
 		rotation = tmp_rot
 		can_move = true
 	

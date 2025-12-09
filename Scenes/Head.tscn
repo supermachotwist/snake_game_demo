@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://ebwxnlcjdkh0"]
+[gd_scene load_steps=9 format=3 uid="uid://ebwxnlcjdkh0"]
 
 [ext_resource type="Script" uid="uid://bhcnsr1mtopke" path="res://Scripts/head.gd" id="1_oo67o"]
 [ext_resource type="Texture2D" uid="uid://w31grk6diurl" path="res://Sprites/snake_head.png" id="1_u7sq7"]
+[ext_resource type="AudioStream" uid="uid://drl4cdtxvbai8" path="res://Audio/Turn.mp3" id="3_kk1lw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oo67o"]
 atlas = ExtResource("1_u7sq7")
@@ -44,3 +45,6 @@ frame_progress = 0.8038306
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_67qyh")
+
+[node name="Turn" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_kk1lw")
