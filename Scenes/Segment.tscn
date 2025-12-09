@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://dmftiu4oe4utq"]
+
+[ext_resource type="Script" uid="uid://dkrxd440xn02m" path="res://Scripts/segment.gd" id="1_om7y0"]
+[ext_resource type="Texture2D" uid="uid://qxbou5g4n2wm" path="res://Sprites/snake_segment.png" id="1_v7yqs"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_om7y0"]
+radius = 8.062258
+
+[node name="Segment" type="Area2D"]
+script = ExtResource("1_om7y0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_v7yqs")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_om7y0")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

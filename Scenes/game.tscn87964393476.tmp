@@ -1,0 +1,135 @@
+[gd_scene load_steps=13 format=3 uid="uid://d2k1p12jk0gg8"]
+
+[ext_resource type="Texture2D" uid="uid://bm8xxcia7kk4l" path="res://Sprites/floor.png" id="1_qxrlw"]
+[ext_resource type="Script" uid="uid://3y342ul334wv" path="res://Scripts/game.gd" id="1_wrm1d"]
+[ext_resource type="PackedScene" uid="uid://ebwxnlcjdkh0" path="res://Scenes/Head.tscn" id="2_wrm1d"]
+[ext_resource type="PackedScene" uid="uid://dmftiu4oe4utq" path="res://Scenes/Segment.tscn" id="4_3dryh"]
+[ext_resource type="Texture2D" uid="uid://bc5u74bfrxb71" path="res://Sprites/Borders.png" id="5_wowpa"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wowpa"]
+size = Vector2(143, 798)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i6g32"]
+size = Vector2(144, 800)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1l0tm"]
+size = Vector2(799, 144)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v158k"]
+size = Vector2(800, 144)
+
+[sub_resource type="LabelSettings" id="LabelSettings_wowpa"]
+font_size = 64
+
+[sub_resource type="LabelSettings" id="LabelSettings_i6g32"]
+font_size = 31
+
+[sub_resource type="LabelSettings" id="LabelSettings_1l0tm"]
+font_size = 32
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_wrm1d")
+
+[node name="Snake" type="Node2D" parent="."]
+
+[node name="Head" parent="Snake" instance=ExtResource("2_wrm1d")]
+z_index = 2
+position = Vector2(384, 448)
+
+[node name="Segment" parent="Snake" instance=ExtResource("4_3dryh")]
+position = Vector2(384, 448)
+
+[node name="Segment2" parent="Snake" instance=ExtResource("4_3dryh")]
+position = Vector2(384, 448)
+
+[node name="Segment3" parent="Snake" instance=ExtResource("4_3dryh")]
+position = Vector2(384, 448)
+
+[node name="Segment4" parent="Snake" instance=ExtResource("4_3dryh")]
+position = Vector2(384, 448)
+
+[node name="Apples" type="Node2D" parent="."]
+
+[node name="Borders" type="Area2D" parent="."]
+
+[node name="Border_left" type="CollisionShape2D" parent="Borders"]
+position = Vector2(72.5, 401)
+shape = SubResource("RectangleShape2D_wowpa")
+
+[node name="Border_right" type="CollisionShape2D" parent="Borders"]
+position = Vector2(728, 400)
+shape = SubResource("RectangleShape2D_i6g32")
+
+[node name="Border_top" type="CollisionShape2D" parent="Borders"]
+position = Vector2(400.5, 72)
+shape = SubResource("RectangleShape2D_1l0tm")
+
+[node name="Border_bottom" type="CollisionShape2D" parent="Borders"]
+position = Vector2(400, 728)
+shape = SubResource("RectangleShape2D_v158k")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Border_left" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(72, 400)
+scale = Vector2(4.5, 25)
+texture = ExtResource("5_wowpa")
+
+[node name="Border_right" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(728, 400)
+scale = Vector2(4.499999, 25.000002)
+texture = ExtResource("5_wowpa")
+
+[node name="Border_top" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(399.99997, 72)
+scale = Vector2(24.999998, 4.5)
+texture = ExtResource("5_wowpa")
+
+[node name="Border_bottom" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(400, 728)
+scale = Vector2(25, 4.5)
+texture = ExtResource("5_wowpa")
+
+[node name="Floor" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(400, 400)
+texture = ExtResource("1_qxrlw")
+
+[node name="GameOver" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="GameOver"]
+offset_right = 800.0
+offset_bottom = 800.0
+color = Color(0.10980392, 0.10980392, 0.10980392, 0.56078434)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOver"]
+offset_right = 800.0
+offset_bottom = 800.0
+alignment = 1
+
+[node name="GameOver" type="Label" parent="GameOver/VBoxContainer"]
+layout_mode = 2
+text = "Game Over"
+label_settings = SubResource("LabelSettings_wowpa")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Restart" type="Label" parent="GameOver/VBoxContainer"]
+layout_mode = 2
+text = "Press R to Restart Game"
+label_settings = SubResource("LabelSettings_i6g32")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Score" type="Label" parent="UI"]
+offset_left = 145.0
+offset_top = 63.0
+offset_right = 266.0
+offset_bottom = 108.0
+text = "Score: 0"
+label_settings = SubResource("LabelSettings_1l0tm")
+
+[connection signal="area_entered" from="Borders" to="." method="_on_borders_area_entered"]
